@@ -3,7 +3,6 @@ import { makeStyles } from 'tss-react/mui';
 const useStyles = makeStyles()((theme) => ({
   root: {
     width: '99vw',
-    height: '97vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

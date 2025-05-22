@@ -14,10 +14,9 @@ const cacheRtl = createCache({
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-const theme = () =>
-  createTheme({
-    direction: 'rtl',
-  });
+const theme = createTheme({
+  direction: 'rtl',
+});
 
 createRoot(document.getElementById('root')!).render(
   <CacheProvider value={cacheRtl}>
