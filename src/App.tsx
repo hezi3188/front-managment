@@ -1,5 +1,6 @@
+import MainScreen from './components/mainScreen/mainScreen';
 const App = () => {
-  return <div>react לדוגמה</div>;
+  return <MainScreen />;
 };
 
 export default App;
