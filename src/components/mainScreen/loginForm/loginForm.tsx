@@ -1,25 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import useStyles from './loginFormStyle';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import CustomButton from '../../generic/customButton/customButton';
+import GenericForm from '../../generic/genericForm/genericForm';
 import CustomTextField from '../../generic/customTextField/customTextField';
+import { LOGIN_SCHEMA } from './loginSchema';
 
-const USERNAME_LABEL = 'שם משתמש';
+const USERNAME_LABEL = 'אימייל';
 const PASSWORD_LABEL = 'סיסמה';
 const LOGIN_BUTTON_TEXT = 'כניסה';
-const EMAIL_REQUIRED = 'שדה חובה';
-const EMAIL_INVALID = 'אימייל לא תקין';
-const PASSWORD_REQUIRED = 'שדה חובה';
-
-const schema = yup
-  .object({
-    email: yup.string().required(EMAIL_REQUIRED).email(EMAIL_INVALID),
-    password: yup.string().required(PASSWORD_REQUIRED),
-  })
-  .required();
+const CLICK_HERE_TEXT = 'לחץ כאן';
+const NO_ACCOUNT_ROW_TEXT = 'אם אין לך חשבון להרשמה';
 
 interface FormValues {
   email: string;
@@ -28,17 +19,16 @@ interface FormValues {
 
 interface Props {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
+  onSignupClick?: () => void;
 }
 
-const LoginForm: React.FC<Props> = ({ setIsAuthenticated }) => {
-  const { classes } = useStyles();
-
+const LoginForm: React.FC<Props> = ({ setIsAuthenticated, onSignupClick }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(LOGIN_SCHEMA),
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -58,25 +48,40 @@ const LoginForm: React.FC<Props> = ({ setIsAuthenticated }) => {
     }
   };
 
+  const fields = [
+    {
+      key: 'email',
+      label: USERNAME_LABEL,
+      inputProps: { ...register('email'), Component: CustomTextField },
+      error: !!errors.email,
+      helperText: errors.email?.message,
+      required: true,
+    },
+    {
+      key: 'password',
+      label: PASSWORD_LABEL,
+      type: 'password',
+      inputProps: { ...register('password'), Component: CustomTextField },
+      error: !!errors.password,
+      helperText: errors.password?.message,
+      required: true,
+    },
+  ];
+
   return (
-    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
-      <CustomTextField
-        label={USERNAME_LABEL}
-        {...register('email')}
-        error={!!errors.email}
-        helperText={errors.email?.message}
-      />
-      <CustomTextField
-        label={PASSWORD_LABEL}
-        type="password"
-        {...register('password')}
-        error={!!errors.password}
-        helperText={errors.password?.message}
-      />
-      <CustomButton className={classes.button} type="submit" disabled={isSubmitting}>
-        {LOGIN_BUTTON_TEXT}
-      </CustomButton>
-    </form>
+    <GenericForm
+      title={LOGIN_BUTTON_TEXT}
+      fields={fields}
+      buttonText={LOGIN_BUTTON_TEXT}
+      onSubmit={handleSubmit(onSubmit)}
+      isSubmitting={isSubmitting}
+      onClose={onSignupClick}
+      switchAuth={{
+        text: NO_ACCOUNT_ROW_TEXT,
+        linkText: CLICK_HERE_TEXT,
+        onClick: onSignupClick || (() => {}),
+      }}
+    />
   );
 };
 

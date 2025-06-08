@@ -4,6 +4,7 @@ import axios from 'axios';
 import useStyles from './mainScreenStyles';
 import LoginForm from './loginForm/loginForm';
 import AuthenticatedView from './authenticatedView/authenticatedView';
+import SignupForm from './signupForm/signupForm';
 
 const TITLE_TEXT = 'מערכת לניהול הוצאות';
 const LOAD_TEXT = 'טוען...';
@@ -14,6 +15,7 @@ const MainScreen: React.FC = () => {
   const { classes } = useStyles();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [showSignup, setShowSignup] = useState(false);
   const intervalRef = useRef<number | null>(null);
 
   const refreshToken = async () => {
@@ -68,7 +70,11 @@ const MainScreen: React.FC = () => {
       ) : (
         <>
           <Typography className={classes.title}>{TITLE_TEXT}</Typography>
-          <LoginForm setIsAuthenticated={setIsAuthenticated} />
+          {showSignup ? (
+            <SignupForm setIsAuthenticated={setIsAuthenticated} onClose={() => setShowSignup(false)} />
+          ) : (
+            <LoginForm setIsAuthenticated={setIsAuthenticated} onSignupClick={() => setShowSignup(true)} />
+          )}
         </>
       )}
     </div>
