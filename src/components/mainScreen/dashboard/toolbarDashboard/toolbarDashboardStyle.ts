@@ -2,7 +2,6 @@ import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()({
   toolbar: {
-    width: '95%',
     minHeight: 56,
     display: 'flex',
     alignItems: 'center',

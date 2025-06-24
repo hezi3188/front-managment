@@ -3,7 +3,7 @@ import { makeStyles } from 'tss-react/mui';
 const useStyles = makeStyles()(() => ({
   wrapper: {
     width: '100%',
-    minHeight: '100vh',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     background: '#f7fafd',
