@@ -3,7 +3,7 @@ import { CircularProgress, Typography } from '@mui/material';
 import axios from 'axios';
 import useStyles from './mainScreenStyles';
 import LoginForm from './loginForm/loginForm';
-import AuthenticatedView from './authenticatedView/authenticatedView';
+import Dashboard from './dashboard/dashboard';
 import SignupForm from './signupForm/signupForm';
 
 const TITLE_TEXT = 'מערכת לניהול הוצאות';
@@ -66,7 +66,7 @@ const MainScreen: React.FC = () => {
   return (
     <div className={classes.root}>
       {isAuthenticated ? (
-        <AuthenticatedView />
+        <Dashboard />
       ) : (
         <>
           <Typography className={classes.title}>{TITLE_TEXT}</Typography>
